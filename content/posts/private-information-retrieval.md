@@ -109,6 +109,10 @@ Multiplying a matrix by $\mathbf{e}_c$ selects its $c$-th column, so $(X\mathbf{
 
 Crucially, neither query encodes $r$ in any way, so the row index is never exposed to either server either.
 
+The privacy guarantee above holds only when the two servers **do not collude**. If they share their queries, the situation changes immediately: server 1 holds $q_1 = \mathbf{v}$ and server 2 holds $q_2 = \mathbf{v} \oplus \mathbf{e}_c$, so together they can compute $q_1 \oplus q_2 = \mathbf{e}_c$, which directly reveals the column index $c$. Non-collusion is therefore not a technical convenience — it is a hard requirement. Under information-theoretic security, where we place no limit on the adversary's computing power, the only protection is a structural constraint on what information each server is allowed to see. There is no computational hardness assumption to fall back on: if two servers pool their views, the privacy of the scheme collapses unconditionally.
+
+> **Remark ($t$-private $k$-server PIR).** The non-collusion requirement can be relaxed. For any $1 \leq t < k$, there exist $k$-server PIR schemes that remain information-theoretically private even if an arbitrary coalition of up to $t$ servers colludes — that is, they share all of their queries and answers. The price for tolerating larger coalitions is higher communication complexity, but the qualitative guarantee is achievable: $t$-privacy against any coalition of $t$ colluding servers, for any desired threshold $t$, without relying on any computational assumption.
+
 ### Communication Complexity
 
 Each query $q_j$ is a $\sqrt{n}$-bit vector. Each response $\mathbf{a}_j$ is also a $\sqrt{n}$-bit vector. The total communication is:
@@ -117,9 +121,15 @@ $$2 \cdot \underbrace{\sqrt{n}}_{\text{query}} + 2 \cdot \underbrace{\sqrt{n}}_{
 
 Compared to the trivial $n$-bit download, this is a dramatic reduction for large $n$.
 
+## Can We Actually Trust the Servers Not to Collude?
+
+The non-collusion assumption raises a valid practical objection. If a single entity — say, a company — wants to offer a PIR-based service, it must deploy at least two servers. But then the user is asked to trust that the very same entity operating both servers will refrain from having them communicate. The entity that *controls* the infrastructure is exactly the entity the user is trying to hide their query from, and non-collusion is simply a promise that this entity makes to itself. There is no cryptographic mechanism enforcing it.
+
+This tension is precisely what motivates the shift from information-theoretic to **computational PIR**. By relaxing the security guarantee to hold only against computationally bounded adversaries — and grounding privacy in a cryptographic hardness assumption rather than server separation — it becomes possible to build a single-server PIR scheme. The non-collusion requirement disappears entirely: there is only one server, and the user's privacy is protected by mathematics rather than by organizational trust. The tradeoff is heavier computation on the server side, but for many real deployments this is a worthwhile price for removing a non-enforceable assumption.
+
 ## Where to Go From Here
 
 The matrix scheme is simple and already achieves $O(\sqrt{n})$ communication with 2 servers. But it is far from the limit. Chor et al. showed that a more structured construction — arranging the database as a three-dimensional cube and using a carefully designed query strategy — achieves $O(n^{1/3})$ with 2 servers. More generally, with $k$ servers one can achieve $O(n^{1/(2k-1)})$ communication. Later work by Woodruff and Yekhanin pushed this further, and today there exist schemes with polylogarithmic communication, albeit under additional assumptions.
 
-What about a single server? If we are willing to settle for **computational** rather than **information-theoretic** privacy — relying on cryptographic hardness assumptions rather than unconditional guarantees — then single-server PIR becomes possible. In Part 2, we will explore **computational PIR**, where constructions based on lattice problems like Learning With Errors (LWE) allow a single server to answer queries without learning the index, at the cost of heavier computation.
+As discussed above, the non-collusion requirement inherent to IT-PIR motivates moving to the computational setting. In Part 2, we will explore **computational PIR**, where constructions based on lattice problems like Learning With Errors (LWE) achieve single-server PIR without any trust assumption between servers.
 

@@ -1,7 +1,7 @@
 {{- $title := .Get "title" -}}
 <div class="math-proof">
   <div class="math-proof__header">
-    <span class="math-proof__label">Proof{{ with $title }} ({{ . }}){{ end }}</span>
+    <span class="math-proof__label">Proof Sketch{{ with $title }} ({{ . }}){{ end }}</span>
   </div>
   <div class="math-proof__body">
     {{- .Inner | .Page.RenderString -}}

@@ -4,6 +4,7 @@
       "a",
       "article",
       "aside",
+      "blockquote",
       "body",
       "button",
       "circle",
@@ -73,6 +74,7 @@
       "math-theorem__body",
       "math-theorem__header",
       "math-theorem__label",
+      "math-theorem__title",
       "nav-search",
       "nav-toggle",
       "nav-utils",
@@ -122,6 +124,7 @@
     "ids": [
       "TableOfContents",
       "a-single-server-is-not-enough-for-it-pir",
+      "can-we-actually-trust-the-servers-not-to-collude",
       "communication-complexity",
       "computational-privacy",
       "correctness",
