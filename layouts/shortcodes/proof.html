@@ -1,0 +1,10 @@
+{{- $title := .Get "title" -}}
+<div class="math-proof">
+  <div class="math-proof__header">
+    <span class="math-proof__label">Proof{{ with $title }} ({{ . }}){{ end }}</span>
+  </div>
+  <div class="math-proof__body">
+    {{- .Inner | .Page.RenderString -}}
+    <span class="math-proof__qed">&#x220E;</span>
+  </div>
+</div>

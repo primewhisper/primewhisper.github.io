@@ -1,0 +1,10 @@
+{{- $title := .Get "title" | default "Definition" -}}
+<div class="math-definition">
+  <div class="math-definition__header">
+    <span class="math-definition__label">Definition</span>
+    {{- with $title }}<span class="math-definition__title">({{ . }})</span>{{ end -}}
+  </div>
+  <div class="math-definition__body">
+    {{- .Inner | .Page.RenderString -}}
+  </div>
+</div>

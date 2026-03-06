@@ -1,0 +1,145 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} &middot; {{ .Site.Title }}{{ end }}</title>
+
+{{ with .Description | default .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
+{{ with .Params.author | default .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }}
+<link rel="canonical" href="{{ .Permalink }}">
+
+<!-- Favicon -->
+<link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
+<link rel="manifest" href="{{ "manifest.webmanifest" | relURL }}">
+
+<!-- SEO -->
+{{ partial "seo/opengraph.html" . }}
+{{ partial "seo/schema.html" . }}
+{{ if ne .Kind "page" }}
+  {{ with .Paginator }}
+    {{ if .HasPrev }}<link rel="prev" href="{{ .Prev.URL }}">{{ end }}
+    {{ if .HasNext }}<link rel="next" href="{{ .Next.URL }}">{{ end }}
+  {{ end }}
+{{ end }}
+
+<!-- Preload fonts -->
+{{ $fontPreset := .Site.Params.style.fontPreset | default "inter" }}
+{{ if eq $fontPreset "google-sans" }}
+<link rel="preload" href="{{ "fonts/google-sans-flex-regular.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ "fonts/google-sans-flex-bold.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ "fonts/google-sans-code-regular.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+{{ else }}
+<link rel="preload" href="{{ "fonts/inter-regular.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ "fonts/inter-bold.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ "fonts/jetbrains-mono-regular.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+{{ end }}
+
+<!-- CSS -->
+{{ $cssOptions := (dict "targetPath" "css/style.css" "outputStyle" "compressed") }}
+{{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "style.main.scss" . | css.Sass $cssOptions | fingerprint }}
+<link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
+
+<!-- Math (KaTeX) -->
+{{ partial "math.html" . }}
+
+<!-- Custom shortcode styles -->
+<style>
+.math-definition {
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-m);
+  overflow: hidden;
+}
+.math-definition__header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4em;
+  background-color: var(--color-primary);
+  padding: 5px 14px;
+}
+.math-definition__label {
+  font-weight: 700;
+  font-style: italic;
+  color: #fff;
+  font-size: var(--font-size-small);
+}
+.math-definition__title {
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: var(--font-size-small);
+}
+.math-definition__body {
+  padding: var(--space-m);
+  font-style: italic;
+}
+.math-definition__body p:last-child {
+  margin-bottom: 0;
+}
+
+/* Theorem */
+.math-theorem {
+  border: 1.5px solid var(--color-accent);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-m);
+  overflow: hidden;
+}
+.math-theorem__header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4em;
+  background-color: var(--color-accent);
+  padding: 5px 14px;
+}
+.math-theorem__label {
+  font-weight: 700;
+  font-style: italic;
+  color: #fff;
+  font-size: var(--font-size-small);
+}
+.math-theorem__title {
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: var(--font-size-small);
+}
+.math-theorem__body {
+  padding: var(--space-m);
+  font-style: italic;
+}
+.math-theorem__body p:last-child {
+  margin-bottom: 0;
+}
+
+/* Proof */
+.math-proof {
+  border-left: 3px solid var(--color-border);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin-bottom: var(--space-m);
+  padding: 0;
+}
+.math-proof__header {
+  padding: 4px 14px 0;
+}
+.math-proof__label {
+  font-weight: 700;
+  font-style: italic;
+  font-size: var(--font-size-small);
+  color: var(--color-text-offset);
+}
+.math-proof__body {
+  padding: 4px var(--space-m) var(--space-m);
+  position: relative;
+}
+.math-proof__body p:last-child {
+  margin-bottom: 0;
+  display: inline;
+}
+.math-proof__qed {
+  float: right;
+  font-style: normal;
+  font-size: 1.1em;
+  line-height: 1;
+  margin-top: 0.1em;
+  color: var(--color-text-offset);
+}
+</style>

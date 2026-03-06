@@ -1,0 +1,10 @@
+{{- $title := .Get "title" -}}
+<div class="math-theorem">
+  <div class="math-theorem__header">
+    <span class="math-theorem__label">Theorem</span>
+    {{- with $title }}<span class="math-theorem__title">({{ . }})</span>{{ end -}}
+  </div>
+  <div class="math-theorem__body">
+    {{- .Inner | .Page.RenderString -}}
+  </div>
+</div>
