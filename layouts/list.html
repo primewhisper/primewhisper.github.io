@@ -1,0 +1,7 @@
+{{ define "main" }}
+<div class="wrap">
+  <h1 class="page-title">{{ .Title }}</h1>
+  {{ .Content }}
+  {{ partial "postlist.html" .Pages }}
+</div>
+{{ end }}

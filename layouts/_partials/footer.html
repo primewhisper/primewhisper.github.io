@@ -1,0 +1,8 @@
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© {{ now.Year }} {{ site.Params.author }}</span>
+    <span>{{ site.Params.tagline }}</span>
+  </div>
+</footer>
+{{- $js := resources.Get "js/lightbox.js" | resources.Minify | fingerprint }}
+<script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>

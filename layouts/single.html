@@ -1,0 +1,21 @@
+{{ define "main" }}
+<div class="wrap article-wrap">
+  <article>
+    <header class="article-head">
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="lede">{{ . }}</p>{{ end }}
+      {{ if eq .Section "posts" }}
+      <div class="meta">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+        · {{ .ReadingTime }} min read
+        {{ range .Params.tags }}<a class="tag" href="{{ (urlize (printf "tags/%s" .)) | relURL }}/">{{ . }}</a>{{ end }}
+      </div>
+      {{ end }}
+    </header>
+    {{ if and (eq .Section "posts") (gt .WordCount 1200) (ne .Params.toc false) }}
+    <details class="toc"><summary>Contents</summary>{{ .TableOfContents }}</details>
+    {{ end }}
+    <div class="prose">{{ .Content }}</div>
+  </article>
+</div>
+{{ end }}

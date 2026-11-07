@@ -1,0 +1,10 @@
+{{ define "main" }}
+<div class="wrap">
+  <section class="hero">
+    <h1>{{ site.Title }}</h1>
+    <p>{{ site.Params.tagline }}</p>
+  </section>
+  <h2 class="section-label">Latest</h2>
+  {{ partial "postlist.html" (where site.RegularPages "Section" "posts") }}
+</div>
+{{ end }}

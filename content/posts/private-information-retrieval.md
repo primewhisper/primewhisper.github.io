@@ -1,6 +1,6 @@
 +++
 date = '2026-03-06T15:17:16+02:00'
-draft = false
+draft = true
 title = 'Private Information Retrieval - Part 1'
 tags = ['cryptography', 'privacy', 'pir', 'private information retrieval']
 math = true
