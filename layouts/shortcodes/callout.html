@@ -1,0 +1,2 @@
+{{- $type := .Get "type" | default "note" -}}
+<aside class="callout callout-{{ $type }}">{{ .Inner | .Page.RenderString }}</aside>

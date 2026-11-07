@@ -1,0 +1,12 @@
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="{{ "/" | relURL }}"><span class="brand-mark" aria-hidden="true">∿</span> {{ site.Title }}</a>
+    <nav aria-label="Main">
+      {{ $cur := . }}
+      {{ range site.Menus.main }}
+        <a href="{{ .URL }}"{{ if or ($cur.IsMenuCurrent "main" .) ($cur.HasMenuCurrent "main" .) }} aria-current="page"{{ end }}>{{ .Name }}</a>
+      {{ end }}
+      <a href="{{ "index.xml" | relURL }}">RSS</a>
+    </nav>
+  </div>
+</header>
