@@ -5,6 +5,7 @@ title = 'Sparks of Weight-Space Programming? Probably Not'
 description = 'Reverse engineering the Breakout network Astra wrote from scratch'
 tags = ['machine learning', 'reverse engineering', 'neural networks']
 math = true
+build = { list = 'never' }
 +++
 
 As long as you are living on Earth you have probably stumbled upon a [blog post](https://rikiyat.github.io/blog/weight-space-programming/) about Astra reading and writing neural network weights, which concludes:
